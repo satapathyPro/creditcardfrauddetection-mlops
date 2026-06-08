@@ -1,115 +1,181 @@
-# Credit Card Fraud Detection System with MLOps Integration
+# Credit Card Fraud Detection — MLOps Pipeline
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
+  <img src="https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" alt="Scikit-learn"/>
+  <img src="https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white" alt="Jupyter"/>
+  <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas"/>
+  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask"/>
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+  <img src="https://img.shields.io/badge/XGBoost-EC4E20?style=for-the-badge&logo=xgboost&logoColor=white" alt="XGBoost"/>
+  <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" alt="Grafana"/>
+</p>
+
+<p align="center">
+  <strong>End-to-end MLOps pipeline for credit card fraud detection — automated training, model versioning, real-time inference, and interactive dashboard.</strong>
+</p>
 
 ---
 
-## **Project Overview**
+## Project Overview
 
-This project is focused on building a Credit Card Fraud Detection System that utilizes machine learning techniques to detect fraudulent transactions. The project incorporates MLOps practices to ensure the entire lifecycle of the machine learning model is automated and scalable. The project also includes a real-time dashboard for visualizing fraud detection insights.
+This project delivers a production-grade Credit Card Fraud Detection system built around MLOps principles. The system automates the entire ML lifecycle — from raw data ingestion through model training, evaluation, versioning, and serving — with a real-time dashboard for monitoring fraud detection outcomes.
 
-Features
-
-- **Data Ingestion and Preprocessing**: Automated data pipeline for ingesting and cleaning transaction data.
-- **Fraud Detection Models**: Supervised (Logistic Regression, Decision Trees) and Unsupervised (Clustering) models to detect fraud.
-- **Model Deployment**: Dockerized machine learning models with continuous integration and deployment (CI/CD).
-- **Model Monitoring**: Real-time performance monitoring using Prometheus and Grafana.
-- **Dashboard**: Interactive dashboard for real-time visualization of results.
-
-## **Tech Stack**
-- **Backend**: Flask (Python)
-- **Machine Learning Model**: Logistic Regression, Random Forest, XGBoost
-- **Frontend**: HTML, CSS
-- **Data Preprocessing**: Pandas, Scikit-learn (Standard Scaler for feature scaling)
-- **Deployment**: Docker (For easy containerization)
-- **Future Deployment Plans**: Google Cloud, Vercel, or Azure for hosting
+The stack combines supervised (Logistic Regression, Random Forest, XGBoost) and unsupervised (Clustering) approaches on a 28-feature PCA-transformed transaction dataset, with LangChain/OpenAI integration for human-readable prediction explanations.
 
 ---
 
-## **How It Works**
+## Pipeline Architecture
 
-The application allows users to:
-- **Select a Machine Learning Model**: Choose between Logistic Regression, Random Forest, and XGBoost.
-- **Enter Transaction Features**: Users input transaction details (features, time, and amount).
-- **Get Fraud Predictions**: The app predicts whether the transaction is fraudulent or not.
-- **Receive Explanation**: Uses **LangChain/OpenAI** API to generate a natural language explanation of the prediction.
-  
-### **Features**
-- **Risk Segmentation**: Allows users to classify transactions as high-risk, medium-risk, or low-risk based on model predictions.
-- **Fraud Probability**: Displays the likelihood of a transaction being fraudulent as a percentage, helping users gauge model confidence.
-- **Graphs and Visualizations** (Future Work): Planned visualizations to help users understand patterns in transaction risks.
-  
----
-
-## **Getting Started**
-
-### **Prerequisites**
-- Python 3.11 (or higher)
-- Docker (for containerization and deployment)
-- Optional: Google Cloud or other cloud platforms if deploying the app
-
-### **1. Clone the Repository**
-
-```bash
-git clone https://github.com/satapathyPro/creditCardFraudDetection.git
-cd creditCardFraudDetection
+```
+Raw Transaction Data
+        │
+        ▼
+┌───────────────────┐
+│  Data Ingestion   │  ← Automated pipeline, schema validation
+└────────┬──────────┘
+         │
+         ▼
+┌───────────────────┐
+│  Preprocessing    │  ← StandardScaler, feature engineering, class balancing
+└────────┬──────────┘
+         │
+         ▼
+┌───────────────────┐
+│  Model Training   │  ← Logistic Regression, Random Forest, XGBoost
+└────────┬──────────┘
+         │
+         ▼
+┌───────────────────┐
+│   Evaluation      │  ← Precision, Recall, F1, ROC-AUC, confusion matrix
+└────────┬──────────┘
+         │
+         ▼
+┌───────────────────┐
+│   Deployment      │  ← Dockerized Flask API, CI/CD
+└────────┬──────────┘
+         │
+         ▼
+┌───────────────────┐
+│ Real-time Dashboard│ ← Live predictions, risk segmentation, Prometheus + Grafana
+└───────────────────┘
 ```
 
-### **2. Set Up the Virtual Environment**
+---
+
+## MLOps Practices
+
+| Practice | Implementation |
+|---|---|
+| **Automated Pipelines** | End-to-end data ingestion and preprocessing pipelines eliminate manual steps |
+| **Model Versioning** | Trained models are versioned and stored for reproducibility and rollback |
+| **CI/CD** | Containerized deployments via Docker with continuous integration and delivery |
+| **Real-time Monitoring** | Prometheus metrics + Grafana dashboards track prediction latency, drift, and throughput |
+| **Explainability** | LangChain/OpenAI generates natural-language explanations for every prediction |
+| **Risk Segmentation** | Predictions classified as high / medium / low risk with confidence scores |
+| **Reproducibility** | Jupyter notebooks document experiment tracking and model comparison |
+
+---
+
+## Model Performance
+
+The system evaluates all models against the following metrics on the held-out test set:
+
+| Metric | Description |
+|---|---|
+| **Precision** | Fraction of flagged transactions that are genuinely fraudulent |
+| **Recall** | Fraction of actual fraud cases caught by the model |
+| **F1 Score** | Harmonic mean of precision and recall |
+| **ROC-AUC** | Area under the receiver operating characteristic curve |
+| **Fraud Probability** | Per-transaction confidence score (0–100%) surfaced in the dashboard |
+
+Models compared: Logistic Regression, Random Forest, XGBoost. Class imbalance is addressed via StandardScaler normalization and evaluation on stratified splits.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Language** | Python 3.11+ |
+| **ML Models** | Logistic Regression, Random Forest, XGBoost |
+| **Data Processing** | Pandas, Scikit-learn (StandardScaler) |
+| **Notebooks** | Jupyter |
+| **Backend API** | Flask |
+| **Explainability** | LangChain + OpenAI API |
+| **Frontend** | HTML, CSS |
+| **Containerization** | Docker |
+| **Monitoring** | Prometheus + Grafana |
+| **Future Hosting** | Google Cloud / Azure / Vercel |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.11 or higher
+- Docker (for containerized deployment)
+- OpenAI API key (for prediction explanations)
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/satapathyPro/creditcardfrauddetection-mlops.git
+cd creditcardfrauddetection-mlops
+```
+
+### 2. Set Up a Virtual Environment
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # For macOS/Linux
+source venv/bin/activate      # macOS / Linux
 # OR
-venv\Scripts\activate  # For Windows
+venv\Scripts\activate         # Windows
 ```
 
-### **3. Install Dependencies**
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### **4. Set Up the Environment Variables**
+### 4. Configure Environment Variables
 
-Create a .env file and add your OpenAI API key (for explanation generation via LangChain).
+Create a `.env` file in the project root:
 
 ```bash
 OPENAI_API_KEY=your-api-key
 ```
 
-### **5. Run the Flask App**
-
-You can now start the Flask server locally.
+### 5. Run the Flask Application
 
 ```bash
 flask run
 ```
 
-The app will be accessible at https://127.0.0.1:5000.
+The API will be available at `http://127.0.0.1:5000`.
 
-### **6. Build and Run with Docker (Optional)**
-
-To build with Docker image:
+### 6. Build and Run with Docker
 
 ```bash
-docker build -t my-flask-app .
+# Build the image
+docker build -t fraud-detection-mlops .
+
+# Run the container
+docker run -d -p 5000:5000 fraud-detection-mlops
 ```
 
-To run with Docker container:
+### 7. Make Predictions
 
-```bash
-docker run -d -p 5000:5000 my-flask-app
-```
+Navigate to `http://127.0.0.1:5000` in your browser, then:
 
-### **7. Make Predictions**
+1. **Select a model** — Logistic Regression, Random Forest, or XGBoost
+2. **Enter transaction features** — 28 PCA features, time, and amount
+3. **View the prediction** — fraud / legitimate, risk tier, and confidence score
+4. **Read the explanation** — LangChain-generated natural language summary
 
-Navigate to the app in your browser and enter transaction details:
-
-- **Select a model**: Choose from Logistic Regression, Random Forest, or XG Boost.
-- **Enter Transaction Features**: Input transaction features (28 features), time, and amount.
-
-**Testing via cURL**
-
-You can also make predictions using cURL:
+**Testing via cURL:**
 
 ```bash
 curl -X POST http://127.0.0.1:5000/predict \
@@ -121,20 +187,32 @@ curl -X POST http://127.0.0.1:5000/predict \
 
 ---
 
-## Future Work
+## Key Features
 
-- [ ] **Enhanced Visualization**: Incorporate Plotly graphs and charts.
-- [ ] **Interactive Transaction Exploration**: Allow users to upload transaction datasets and receive a batch analysis of potential fraud cases.
-- [ ] **Real-Time Fraud Detection**: Integrate with APIs to perform real-time fraud detection on live transactions. (Or perform Simulation)
-- [ ] **Model Tuning**: Hyperparameter Tuning and Model Evaluation
-- [ ] **Deploy on Cloud**
+- **Multi-model inference** — switch between Logistic Regression, Random Forest, and XGBoost at runtime
+- **Risk segmentation** — transactions classified as high / medium / low risk
+- **Fraud probability score** — percentage confidence surfaced per prediction
+- **AI-powered explanations** — LangChain/OpenAI generates readable summaries
+- **Real-time dashboard** — live fraud detection monitoring with Prometheus + Grafana
+- **Dockerized deployment** — portable, reproducible containers ready for cloud hosting
 
 ---
 
-## **Maintainer**
+## Roadmap
 
-This project is maintained by **Subham Satapathy**, a Software Engineer with over 6 years of professional experience building cloud-scale distributed systems and production observability. Subham specializes in Python, Scala, and AI automation, with a focus on developing robust MLOps pipelines and scalable backend architectures.
+- [ ] **Enhanced Visualizations** — Plotly charts for transaction risk distribution
+- [ ] **Batch Analysis** — upload a transaction CSV and receive bulk fraud scoring
+- [ ] **Live Transaction Feed** — real-time API integration for streaming transactions
+- [ ] **Hyperparameter Tuning** — automated grid/random search with MLflow tracking
+- [ ] **Cloud Deployment** — production deployment on Google Cloud, Azure, or Vercel
+- [ ] **Drift Detection** — automated alerts when feature or concept drift is detected
 
-- **GitHub**: https://github.com/satapathyPro
-- **LinkedIn**: https://www.linkedin.com/in/subhamumd/
+---
+
+## Maintainer
+
+**Subham Satapathy** — Software Engineer with 6+ years of experience building cloud-scale distributed systems and production observability platforms. Specializes in Python, Scala, and AI automation with a focus on robust MLOps pipelines and scalable backend architectures.
+
+- **GitHub**: [satapathyPro](https://github.com/satapathyPro)
+- **LinkedIn**: [subhamumd](https://www.linkedin.com/in/subhamumd/)
 - **Email**: satapathypro@gmail.com
